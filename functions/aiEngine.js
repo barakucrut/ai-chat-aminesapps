@@ -66,7 +66,7 @@ export async function handleChatMessageWithAI(message, phoneNumber) {
   ];
 
   // 6. Kirim permintaan ke OpenAI
-  async function run() {
+  // async function run() {
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages,
@@ -109,7 +109,7 @@ export async function handleChatMessageWithAI(message, phoneNumber) {
 
       return finalReply;
     }
-  }
+  // }
 
-  run().catch(console.error);
+  // run().catch(console.error);
 }

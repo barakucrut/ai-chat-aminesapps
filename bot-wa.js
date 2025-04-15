@@ -1,13 +1,13 @@
-const wa = require("@open-wa/wa-automate");
+import * as wa from "@open-wa/wa-automate";
 
-const express = require("express");
+// const express = require("express");
 
-const { handleChatMessageWithAI } = require("./functions/aiEngine");
+import { handleChatMessageWithAI } from "./functions/aiEngine.js";
 
 const PORT = 8082;
 let globalClient;
-const app = express();
-app.use(express.json());
+// const app = express();
+// app.use(express.json());
 
 wa.create({
   sessionId: "TEST_HELPER",
@@ -42,6 +42,8 @@ try {
 } catch (error) {
   pesankirim = "Terjadi kesalahan, Silahkan coba lagi."
 }
+console.log("pesankirim", pesankirim);
+
     
     if (sendText) {
         if (message.contact != null) {
@@ -54,6 +56,6 @@ try {
 }
 
 
-app.listen(PORT, function () {
-  console.log(`\n• Listening on port ${PORT}!`);
-});
+// app.listen(PORT, function () {
+//   console.log(`\n• Listening on port ${PORT}!`);
+// });
