@@ -37,20 +37,22 @@ function start(client) {
     const phone = message.from.toString().split("@")[0].toString();
     let pesankirim = welcomeText;
     let sendText = true;
-try {
-  pesankirim = await handleChatMessageWithAI(body, phone);
-} catch (error) {
-  pesankirim = "Terjadi kesalahan, Silahkan coba lagi."
-}
-console.log("pesankirim", pesankirim);
+    try {
+      pesankirim = await handleChatMessageWithAI(body, phone);
+    } catch (error) {
+      console.log("error", error);
+      
+      pesankirim = "Terjadi kesalahan, Silahkan coba lagi.";
+    }
+    console.log("pesankirim", pesankirim);
 
-    
+
     if (sendText) {
-        if (message.contact != null) {
-            await client.sendText(message.chatId, pesankirim);
-          } else {
-            await client.sendText(message.from, pesankirim);
-          }
+      if (message.contact != null) {
+        await client.sendText(message.chatId, pesankirim);
+      } else {
+        await client.sendText(message.from, pesankirim);
+      }
     }
   });
 }

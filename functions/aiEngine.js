@@ -84,6 +84,7 @@ export async function handleChatMessageWithAI(message, phoneNumber) {
 
       if (name === 'checkInternetIssue') {
         const result = await checkInternetIssue(args.phoneNumber);
+        
         // Tambahkan hasil function ke messages
         messages.push({
           role: 'function',
@@ -91,7 +92,7 @@ export async function handleChatMessageWithAI(message, phoneNumber) {
           content: JSON.stringify(result),
         });
       } else if (name === 'getMonthlyPromo') {
-        const result = await getMonthlyPromo();
+        const result = await getMonthlyPromo(phoneNumber);
 
         messages.push({
           role: 'function',
