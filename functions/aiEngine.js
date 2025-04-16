@@ -13,23 +13,42 @@ export async function handleChatMessageWithAI(message, phoneNumber) {
     {
       role: 'system',
       content: `
-      Kamu adalah AI Customer Service dari Perusahaan bernama JemberWifi.
-      
-      Nomor WhatsApp pelanggan: ${phoneNumber}.
-      
-      Tugasmu:
-      - Memahami keluhan pelanggan dari pesan yang diketik (bisa dalam Bahasa Indonesia, Jawa, Madura, dll).
-      - Tentukan apakah pelanggan mengalami gangguan internet karena:
-        1. Belum membayar tagihan (unpaid_invoice).
-        2. Sedang ada gangguan massal (mass_outage).
-        3. Penyebab teknis lainnya.
-      
-      Gunakan fungsi 'checkInternetIssue' untuk mencari tahu penyebabnya berdasarkan nomor WA pelanggan. 
-      Pelanggan juga bisa menanyakan promo bulan ini dengan fungsi 'getMonthlyPromo'.
-    
-      Balas dengan gaya ramah, akrab, dan bahasa yang sesuai dengan nada si pelanggan.
-      Tolong balas dengan format Whatsapp, beri tanda bold untuk semua info penting yang didapat dari response API function.
-          `.trim(),
+        Kamu adalah AI Customer Service ramah dari perusahaan bernama *JemberWifi*.
+        
+        Nomor WhatsApp pelanggan: ${phoneNumber}.
+        
+        Tugasmu:
+        - Memahami pesan pelanggan, baik dalam Bahasa Indonesia, Jawa, Madura, atau campurannya.
+        - Jika pelanggan mengeluh soal internet, gunakan fungsi *checkInternetIssue* untuk mencari tahu penyebabnya:
+          📛 Belum bayar tagihan (*unpaid_invoice*)
+          🌐 Sedang ada gangguan massal (*mass_outage*)
+          🛠️ Penyebab teknis lainnya
+        
+        - Jika pelanggan bertanya soal promo bulan ini, gunakan fungsi *getMonthlyPromo*.
+        
+        Cara membalas:
+        - Gunakan *bahasa yang sama atau mirip* dengan pelanggan agar terasa akrab (contoh: kalau pelanggan pakai Bahasa Jawa, balas juga dalam Bahasa Jawa).
+        - Saat membalas hasil dari function:
+          ✅ Gunakan emoji di depan setiap info penting (seperti status, tagihan, invoice, link).
+          ✅ Setiap info penting ditulis di baris baru agar mudah dibaca di WhatsApp.
+          ✅ Gunakan format tebal (*) untuk menekankan info penting.
+        
+        Contoh format:
+        Halo, Sam! Berikut info jaringanmu:
+        
+        📛 *Status:* down  
+        💰 *Tagihan:* Rp165.000  
+        🧾 *Nomor Invoice:* INV-123456  
+        🔗 *Link Pembayaran:* https://...
+        
+        Ayo dibayar lekas ya supaya jaringan aktif kembali 😊
+        
+        Ingat:
+        - Tetap ramah, jangan terlalu formal.
+        - Jangan membalas seperti robot.
+        - Sesuaikan nada dan gaya bahasamu agar nyaman dibaca pelanggan dari berbagai daerah.
+        
+        `.trim(),
     },
     {
       role: 'user',
@@ -65,8 +84,33 @@ export async function handleChatMessageWithAI(message, phoneNumber) {
     },
   ];
 
-  // 6. Kirim permintaan ke OpenAI
-  // async function run() {
+  const allowedKeywords = [
+    'mati',
+    'gangguan',
+    'lemot',
+    'tidak konek',
+    'tidak bisa internetan',
+    'bayar',
+    'tagihan',
+    'invoice',
+    'nominal',
+    'link pembayaran',
+    'promo',
+    'diskon',
+    'penawaran',
+    'paket hemat',
+    'promo bulan ini',
+    'aoleng',
+    'gak iso',
+    'gak konek',
+    'gak bisa internetan',
+    'gak bisa konek',
+    'gak bisa konek internetan',
+    'gak konek internetan',
+    'tak bisa',
+  ];
+  const lower = message.toLowerCase();
+  if (allowedKeywords.some((keyword) => lower.includes(keyword))) {
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages,
@@ -75,8 +119,6 @@ export async function handleChatMessageWithAI(message, phoneNumber) {
     });
 
     const response = completion.choices[0];
-    console.log('\n--- RESPONSE DARI GPT ---\n');
-    console.log(response);
 
     if (response.finish_reason === 'function_call') {
       const { name, arguments: argsJSON } = response.message.function_call;
@@ -110,7 +152,7 @@ export async function handleChatMessageWithAI(message, phoneNumber) {
 
       return finalReply;
     }
-  // }
-
-  // run().catch(console.error);
+  } else {
+    return null;
+  }
 }
