@@ -1,5 +1,5 @@
 export async function checkInternetIssue(phone_number) {
-  if (phone_number === '081234567890') {
+  if (phone_number === '6285769000007') {
     return {
       status: 'down',
       reason: 'unpaid_invoice',
