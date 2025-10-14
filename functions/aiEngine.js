@@ -92,6 +92,7 @@ export async function handleChatMessageWithAI(message, phoneNumber) {
     'tidak bisa internetan',
     'bayar',
     'tagihan',
+    'tagihanku',
     'invoice',
     'nominal',
     'link pembayaran',
