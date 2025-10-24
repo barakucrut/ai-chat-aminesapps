@@ -50,7 +50,9 @@ function start(client) {
             body: formData,
           },
         );
-        const result = await response.json(); // atau .text() jika bukan JSON
+        const result = await response.json();
+        console.log('kordinat', `${message?.lat},${message?.lng}`);
+        console.log('result', result);
 
         if (result?.data?.covered == 1) {
           console.log('data', result?.data?.odp[0]);
@@ -67,8 +69,8 @@ function start(client) {
                    \n*Slot Tersedia* : ${Math.ceil(item?.available_slot)}`,
               )
               .join('\n\n')}`;
-        } else if(result?.data?.covered == 2){
-           pesankirim = `⚠️ *MAAF!* Lokasi yang anda kirim belum tercover oleh ODP Jember Wifi. Namun terdapat opsi dengan radius lebih luas dengan penambahan biaya
+        } else if (result?.data?.covered == 2) {
+          pesankirim = `⚠️ *MAAF!* Lokasi yang anda kirim belum tercover oleh ODP Jember Wifi. Namun terdapat opsi dengan radius lebih luas dengan penambahan biaya
             \n Berikut adalah daftar ODP dengan jangkauan radius lebih luas :
             ${result?.data?.odp
               .map(
@@ -77,7 +79,9 @@ function start(client) {
                    \n*Jarak* : ${Math.ceil(item?.distance_m)}m
                    \n*Kapasitas Slot* : ${Math.ceil(item?.slot_capacity)}
                    \n*Slot Tersedia* : ${Math.ceil(item?.available_slot)}
-                   \n*Perkiraan Penambahan Biaya* : -+ Rp. ${(Math.ceil(item?.distance_m) - 250)* 1000}`,
+                   \n*Perkiraan Penambahan Biaya* : -+ Rp. ${
+                     (Math.ceil(item?.distance_m) - 250) * 1000
+                   }`,
               )
               .join('\n\n')}`;
         } else {
