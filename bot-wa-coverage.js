@@ -67,6 +67,19 @@ function start(client) {
                    \n*Slot Tersedia* : ${Math.ceil(item?.available_slot)}`,
               )
               .join('\n\n')}`;
+        } else if(result?.data?.covered == 2){
+           pesankirim = `⚠️ *MAAF!* Lokasi yang anda kirim belum tercover oleh ODP Jember Wifi. Namun terdapat opsi dengan radius lebih luas dengan penambahan biaya
+            \n Berikut adalah daftar ODP dengan jangkauan radius lebih luas :
+            ${result?.data?.odp
+              .map(
+                (item, i) =>
+                  `\n ${i + 1}. 📍 *${item?.odp}*
+                   \n*Jarak* : ${Math.ceil(item?.distance_m)}m
+                   \n*Kapasitas Slot* : ${Math.ceil(item?.slot_capacity)}
+                   \n*Slot Tersedia* : ${Math.ceil(item?.available_slot)}
+                   \n*Perkiraan Penambahan Biaya* : -+ Rp. ${(Math.ceil(item?.distance_m) - 250)* 1000}`,
+              )
+              .join('\n\n')}`;
         } else {
           pesankirim = `⚠️ *MAAF!* Lokasi yang anda kirim *belum tercover* oleh ODP Jember Wifi.
         \n🙏 Silakan hubungi admin atau cek area lain di sekitar lokasi anda.`;
