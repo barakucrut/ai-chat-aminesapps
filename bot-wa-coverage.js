@@ -72,7 +72,7 @@ function start(client) {
               .join('\n\n')}`;
         } else if(result?.data?.covered == 2){
            pesankirim = `⚠️ Terima kasih, lokasi yang Anda kirim saat ini belum masuk dalam jangkauan utama jaringan ODP JemberWifi.\n
-            Namun, masih memungkinkan untuk dilakukan pemasangan dengan penambahan kabel dari titik ODP terdekat. Estimasi tambahan biaya sekitar Rp ${(Math.ceil(item?.distance_m) - 250)* 1000} (tergantung kondisi lapangan).\n
+            Namun, masih memungkinkan untuk dilakukan pemasangan dengan penambahan kabel dari titik ODP terdekat. Estimasi tambahan biaya sekitar Rp ${(Math.ceil(result?.data?.odp[0].distance_m) - 250)* 1000} (tergantung kondisi lapangan).\n
             Berikut detail ODP terdekat:
             ${result?.data?.odp
               .map(
