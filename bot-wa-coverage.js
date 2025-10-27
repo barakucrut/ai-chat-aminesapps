@@ -50,7 +50,9 @@ function start(client) {
             body: formData,
           },
         );
-        const result = await response.json(); // atau .text() jika bukan JSON
+        const result = await response.json();
+        console.log('kordinat', `${message?.lat},${message?.lng}`);
+        console.log('result', result);
 
         if (result?.data?.covered == 1) {
           console.log('data', result?.data?.odp[0]);
