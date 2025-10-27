@@ -56,20 +56,8 @@ function start(client) {
           console.log('data', result?.data?.odp[0]);
           console.log('data length', result?.data);
 
-          pesankirim = `✅ *AMAN!* Lokasi yang anda kirim sudah tercover oleh ODP Jember Wifi.
-            \n Berikut adalah daftar ODP terdekat :
-            ${result?.data?.odp
-              .map(
-                (item, i) =>
-                  `\n ${i + 1}. 📍 *${item?.odp}*
-                   \n*Jarak* : ${Math.ceil(item?.distance_m)}m
-                   \n*Kapasitas Slot* : ${Math.ceil(item?.slot_capacity)}
-                   \n*Slot Tersedia* : ${Math.ceil(item?.available_slot)}`,
-              )
-              .join('\n\n')}`;
-        } else if(result?.data?.covered == 2){
-           pesankirim = `⚠️ *MAAF!* Lokasi yang anda kirim belum tercover oleh ODP Jember Wifi. Namun terdapat opsi dengan radius lebih luas dengan penambahan biaya
-            \n Berikut adalah daftar ODP dengan jangkauan radius lebih luas :
+          pesankirim = `✅ *AMAN!* Lokasi yang anda kirim sudah tercover oleh ODP Jember Wifi.\n
+            Berikut adalah daftar ODP terdekat :
             ${result?.data?.odp
               .map(
                 (item, i) =>
@@ -77,12 +65,26 @@ function start(client) {
                    \n*Jarak* : ${Math.ceil(item?.distance_m)}m
                    \n*Kapasitas Slot* : ${Math.ceil(item?.slot_capacity)}
                    \n*Slot Tersedia* : ${Math.ceil(item?.available_slot)}
-                   \n*Perkiraan Penambahan Biaya* : -+ Rp. ${(Math.ceil(item?.distance_m) - 250)* 1000}`,
+                   \nSilahkan hubungi tim marketing kami untuk proses lanjutan dengan klik link berikut : https://bit.ly/48IuuRb`,
+              )
+              .join('\n\n')}`;
+        } else if(result?.data?.covered == 2){
+           pesankirim = `⚠️ Terima kasih, lokasi yang Anda kirim saat ini belum masuk dalam jangkauan utama jaringan ODP JemberWifi.\n
+            Namun, masih memungkinkan untuk dilakukan pemasangan dengan penambahan kabel dari titik ODP terdekat. Estimasi tambahan biaya sekitar Rp ${(Math.ceil(item?.distance_m) - 250)* 1000} (tergantung kondisi lapangan).\n
+            Berikut detail ODP terdekat:
+            ${result?.data?.odp
+              .map(
+                (item, i) =>
+                  `\n🔹 *Nama ODP* : *${item?.odp}*
+                   \n🔹 *Jarak* : ± ${Math.ceil(item?.distance_m)}m
+                   \n🔹 *Kapasitas Slot* : ${Math.ceil(item?.slot_capacity)}
+                   \n🔹 *Slot Tersedia* : ${Math.ceil(item?.available_slot)}
+                   \nSilahkan hubungi tim marketing kami untuk proses lanjutan dengan klik link berikut : https://bit.ly/48IuuRb`,
               )
               .join('\n\n')}`;
         } else {
           pesankirim = `⚠️ *MAAF!* Lokasi yang anda kirim *belum tercover* oleh ODP Jember Wifi.
-        \n🙏 Silakan hubungi admin atau cek area lain di sekitar lokasi anda.`;
+        \n🙏 Silahkan hubungi tim marketing kami untuk proses lanjutan dengan klik link berikut : https://bit.ly/48IuuRb`;
         }
       }
       //   pesankirim = await handleChatMessageWithAI(body, phone);
