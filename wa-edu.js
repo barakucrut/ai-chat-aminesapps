@@ -1,4 +1,5 @@
 import express from 'express';
+import { sendWaMessage } from './wa-edu.js';
 
 const app = express();
 app.use(express.json());
@@ -33,9 +34,6 @@ function authMiddleware(req, res, next) {
   next(); // lanjut ke route berikutnya
 }
 
-// -------------------------------
-// ROUTE: SEND WA
-// -------------------------------
 app.post('/send', authMiddleware, async (req, res) => {
   const { phone, message } = req.body;
 
@@ -46,21 +44,14 @@ app.post('/send', authMiddleware, async (req, res) => {
     });
   }
 
-  // Logic kirim WA (dummy)
-  // nanti tinggal ganti dengan sistem WA-mu
-  console.log('Sending WA to:', phone);
-  console.log('Message:', message);
-
-  return res.json({
-    success: true,
-    message: 'WhatsApp message sent!',
-    data: { phone, message },
-  });
+  try {
+    await sendWaMessage(phone, message);
+    return res.json({ success: true, sent_to: phone });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
 });
 
-// -------------------------------
-// START SERVER
-// -------------------------------
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`WA Sender API running on port ${PORT}`);
