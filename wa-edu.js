@@ -1,5 +1,5 @@
 import express from 'express';
-import { sendWaMessage } from './wa-edu.js';
+import { sendWaMessage } from './wa-core.js';
 
 const app = express();
 app.use(express.json());
