@@ -86,6 +86,16 @@ function start(client) {
               .join('\n\n')}`;
         } else {
           pesankirim = `⚠️ *MAAF!* Lokasi yang anda kirim *belum tercover* oleh ODP Jember Wifi.
+          Berikut detail ODP terdekat:
+            ${result?.data?.odp
+              .map(
+                (item, i) =>
+                  `\n🔹 *Nama ODP* : *${item?.odp}*
+                   \n🔹 *Jarak* : ± ${Math.ceil(item?.distance_m).toLocaleString('id-ID')}m
+                   \n🔹 *Kapasitas Slot* : ${Math.ceil(item?.slot_capacity)}
+                   \n🔹 *Slot Tersedia* : ${Math.ceil(item?.available_slot)}`,
+              )
+              .join('\n\n')}
         \n🙏 Silahkan hubungi tim marketing kami untuk proses lanjutan dengan klik link berikut : https://bit.ly/48IuuRb`;
         }
       }
